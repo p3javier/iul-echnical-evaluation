@@ -1,0 +1,40 @@
+{
+  "type": "array",
+  "items": [
+    {
+      "type": "object",
+      "properties": {
+        "question": {
+          "type": "string"
+        },
+        "choices": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "choice": {
+                  "type": "string"
+                },
+                "votes": {
+                  "type": "integer"
+                },
+                "url": {
+                  "type": "string"
+                }
+              },
+              "required": ["choice", "votes", "url"]
+            }
+          ]
+        },
+        "published_at": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "required": ["question", "choices", "published_at", "url"]
+    }
+  ]
+}
