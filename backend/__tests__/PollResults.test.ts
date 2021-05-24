@@ -31,7 +31,6 @@ describe("GET /polls", () => {
 describe("JSON schema validation module", () => {
   it("has the correct JSON schema", async () => {
     const response = await supertest(appTest).get("/polls");
-    console.log(response.body);
     expect(response.body).toMatchSchema(schema);
   });
 });
