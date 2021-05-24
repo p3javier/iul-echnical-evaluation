@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
-import apiHandler from "./ApiHandler";
 import Loader from "../PollResultsSkeleton/PollResultsSkeleton";
+import { useAPI } from "../useAPI/useAPI";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -17,16 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function PollResultsContainer() {
   const classes = useStyles();
-  const [polls, setPolls] = useState<JSX.Element[]>();
-
-  useEffect(() => {
-    async function fetchData() {
-      const pollsReceived = await apiHandler();
-
-      setPolls(pollsReceived);
-    }
-    fetchData();
-  }, [setPolls]);
+  const polls = useAPI();
   return (
     <div className={classes.root} style={{ marginTop: 20 }}>
       {polls ? polls : <Loader />}
