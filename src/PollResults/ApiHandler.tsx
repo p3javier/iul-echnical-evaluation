@@ -1,10 +1,13 @@
 import React from "react";
-import apiRequest from "../services/apiRequest";
+import apiRequest from "../services/PollsAPI";
 import AcordionElement from "../AcordionElement/AcordionElement";
+import { v4 as uuidv4 } from "uuid";
 
 export default async function apiHandler() {
   const data = await apiRequest();
-  //@ts-ignore
-  const result = data.map((element) => <AcordionElement element={element} />);
+
+  const result = data.map((element) => (
+    <AcordionElement key={uuidv4()} element={element} />
+  ));
   return result;
 }

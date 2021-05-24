@@ -1,9 +1,12 @@
-import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
-import PollResults from "./PollResults";
-import apiRequest from "../services/apiRequest";
+import React, { useState } from "react";
+import { render, getByText } from "@testing-library/react";
+import { renderHook, act } from "@testing-library/react-hooks";
 
-jest.mock("../services/apiRequest");
+import PollResults from "./PollResults";
+import apiRequest from "../services/PollsAPI";
+import apiHandler from "./ApiHandler";
+
+jest.mock("../services/PollsAPI");
 
 const mockApiRequest = apiRequest as jest.MockedFunction<typeof apiRequest>;
 
@@ -46,8 +49,28 @@ const mockResponse: IPollResult[] = [
 describe("PollResult tests", () => {
   test("displays poll results on load", () => {
     mockApiRequest.mockResolvedValueOnce(mockResponse);
-    const { getByText } = render(<PollResults />);
-    const firstQuestion = getByText(/Favourite programming language?/i);
+
+    const { result } = renderHook(() => {
+      const [polls, setPolls] = useState<JSX.Element[]>();
+
+      return { polls, setPolls };
+    });
+    act(() => {
+      render(<PollResults />);
+    });
+    const { container } = render(<PollResults />);
+    act(() => {
+      async function fetchData() {
+        const pollsReceived = await apiHandler();
+
+        result.current.setPolls(pollsReceived);
+      }
+      fetchData();
+    });
+    const firstQuestion = getByText(
+      container,
+      /Favourite programming language?/i
+    );
     expect(firstQuestion).toBeInTheDocument();
   });
 });

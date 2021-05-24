@@ -16,8 +16,8 @@ interface IPollResult {
 }
 
 const apiRequest = async () => {
-  const response = await instance.get("/polls");
-  const pollsArr: Array<IPollResult> = response.data;
+  const { data } = await instance.get("/polls");
+  const pollsArr: Array<IPollResult> = data;
   return pollsArr;
 };
 
