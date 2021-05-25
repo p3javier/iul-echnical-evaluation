@@ -56,6 +56,8 @@ describe("PollResult tests", () => {
     act(() => {
       result.current.fetchAPI();
     });
+
+    console.log("POLLS", result.current.polls);
     const firstQuestion = getByText(
       container,
       /Favourite programming language?/i

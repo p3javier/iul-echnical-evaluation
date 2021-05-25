@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
 import Loader from "../PollResultsSkeleton/PollResultsSkeleton";
 import { useAPI } from "../useAPI/useAPI";
@@ -18,7 +18,11 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function PollResultsContainer() {
   const classes = useStyles();
   const { polls, fetchAPI } = useAPI();
-  fetchAPI();
+
+  useEffect(() => {
+    fetchAPI();
+  }, [fetchAPI]);
+
   return (
     <div className={classes.root} style={{ marginTop: 20 }}>
       {polls ? polls : <Loader />}

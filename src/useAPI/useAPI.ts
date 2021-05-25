@@ -9,7 +9,7 @@ export const useAPI = () => {
       setPolls(pollsReceived);
     }
     fetchData();
-  }, []);
+  }, [setPolls]);
 
   return { polls, fetchAPI };
 };
