@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { render, getByText } from "@testing-library/react";
 import { renderHook, act } from "@testing-library/react-hooks";
 
 import PollResults from "./PollResults";
 import apiRequest from "../services/PollsAPI";
-import apiHandler from "./ApiHandler";
+import { useAPI } from "../useAPI/useAPI";
 
 jest.mock("../services/PollsAPI");
 
@@ -50,22 +50,11 @@ describe("PollResult tests", () => {
   test("displays poll results on load", () => {
     mockApiRequest.mockResolvedValueOnce(mockResponse);
 
-    const { result } = renderHook(() => {
-      const [polls, setPolls] = useState<JSX.Element[]>();
-
-      return { polls, setPolls };
-    });
-    act(() => {
-      render(<PollResults />);
-    });
+    const { result } = renderHook(() => useAPI());
     const { container } = render(<PollResults />);
-    act(() => {
-      async function fetchData() {
-        const pollsReceived = await apiHandler();
 
-        result.current.setPolls(pollsReceived);
-      }
-      fetchData();
+    act(() => {
+      result.current.fetchAPI();
     });
     const firstQuestion = getByText(
       container,

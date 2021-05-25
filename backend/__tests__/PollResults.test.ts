@@ -33,4 +33,9 @@ describe("JSON schema validation module", () => {
     const response = await supertest(appTest).get("/polls");
     expect(response.body).toMatchSchema(schema);
   });
+  it("has a correct datetime format", async () => {
+    const response = await supertest(appTest).get("/polls");
+    const date = Date.parse(response.body[0].published_at);
+    expect(date).toBeTruthy();
+  });
 });

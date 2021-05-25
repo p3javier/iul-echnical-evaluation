@@ -17,7 +17,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function PollResultsContainer() {
   const classes = useStyles();
-  const polls = useAPI();
+  const { polls, fetchAPI } = useAPI();
+  fetchAPI();
   return (
     <div className={classes.root} style={{ marginTop: 20 }}>
       {polls ? polls : <Loader />}
